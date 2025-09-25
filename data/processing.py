@@ -263,7 +263,7 @@ def get_ddi_matrix(records, med_voc, ddi_file):
     ddi_df = pd.read_csv(ddi_file)
     # fliter sever side effect，也是采取topK的形式
     ddi_most_pd = ddi_df.groupby(by=['Polypharmacy Side Effect', 'Side Effect Name']).size().reset_index().rename(columns={0:'count'}).sort_values(by=['count'],ascending=False).reset_index(drop=True)
-    ddi_most_pd = ddi_most_pd.iloc[-TOPK:,:]
+    ddi_most_pd = ddi_most_pd.iloc[:TOPK,:]
     # ddi_most_pd = pd.DataFrame(columns=['Side Effect Name'], data=['as','asd','as'])
     fliter_ddi_df = ddi_df.merge(ddi_most_pd[['Side Effect Name']], how='inner', on=['Side Effect Name'])
     ddi_df = fliter_ddi_df[['STITCH 1','STITCH 2']].drop_duplicates().reset_index(drop=True)
